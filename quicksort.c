@@ -7,6 +7,7 @@ void display(int *array, int size);
 
 int main (void) {
     int array[] = {5, 3, 5, 1, 23, 55, 39, 6, 89, 10, 22, 7};
+    // int array[] = {4,1,2,3};
     int size = sizeof(array)/sizeof(array[0]);
     display(array, size);
     quicksort(array, size);
@@ -17,8 +18,8 @@ int main (void) {
 int *quicksort(int *array, int size) {
     if (size == 1) return 0;
 
-    // int pivot = array[size/2];
-    int pivot = array[size-1];
+    int pivot = array[size/2];
+    // int pivot = array[size-1];
     int *p;
     int *left;
     int *right;
@@ -33,8 +34,8 @@ int *quicksort(int *array, int size) {
     // printf("pivot pointer: %p\n", p);
     // printf("right pointer: %p\n", right);
 
-    // while ((left < p-1 || right > p-1) && !(left == right)) { // while left and right pointers are not pointing at the pivot
-    while (left < &array[size] || right > &array[0]) {
+    while ((left < p-1 || right > p-1) && !(left == right)) { // while left and right pointers are not pointing at the pivot
+    // while (left < &array[size] || right > &array[0]) {
         sleep(1);
         while (*left < pivot) { //was *left <= pivot
             left++;
