@@ -2,63 +2,39 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int *quicksort(int *array, int size);
+void quicksort(int *array, int low, int high);
 void display(int *array, int size);
 
-int main (void) {
+int main(void) {
     int array[] = {5, 3, 5, 1, 23, 55, 39, 6, 89, 10, 22, 7};
-    // int array[] = {4,1,2,3};
-    int size = sizeof(array)/sizeof(array[0]);
+    int size = sizeof(array) / sizeof(array[0]);
+
+    printf("Original: ");
     display(array, size);
-    quicksort(array, size);
+
+    quicksort(array, 0, size - 1);
+
+    printf("Sorted:   ");
     display(array, size);
     return 0;
 }
 
-int *quicksort(int *array, int size) {
-    if (size == 1) return 0;
-
-    int pivot = array[size/2];
-    // int pivot = array[size-1];
-    int *p;
-    int *left;
-    int *right;
-    left = array;
-    right = &array[size-2];
-    p = &array[size/2];
-    printf("the pivot is %d\n", pivot);
-
-    printf("left: %d right: %d\n", *left, *right);
-    // while pointers dont intersect or dont touch the pivot, proceed
-    // printf("left pointer: %p\n", left);
-    // printf("pivot pointer: %p\n", p);
-    // printf("right pointer: %p\n", right);
-
-    while ((left < p-1 || right > p-1) && !(left == right)) { // while left and right pointers are not pointing at the pivot
-    // while (left < &array[size] || right > &array[0]) {
-        sleep(1);
-        while (*left < pivot) { //was *left <= pivot
-            left++;
-            printf("left: %d right: %d\n", *left, *right);
-            // printf("left is now: %d\n", *left);
+void quicksort(int *array, int low, int high) {
+    if (low < high) {
+        int pivot = array[low + (high - low) / 2]; // Choose middle element
+        int i = low - 1;
+        int j = high + 1;
+        while (1) {
+           do {i++;} while (array[i] < pivot); // while loop gets stuck...
+           do {j--;} while (array[j] > pivot);
+            if (i >= j) break;
+            int temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
         }
-
-        while (*right > pivot) {
-            right--;
-            // printf("right is now: %d\n", *right);
-            printf("left: %d right: %d\n", *left, *right);
-        }
-
-        int temp = *left;
-        *left = *right;
-        *right = temp;
-        puts("inner loop ends");
-        printf("left: %d right: %d\n", *left, *right);
-        display(array, size);
+        quicksort(array, low, j);
+        quicksort(array, j+1, high);
     }
-    quicksort(array, (size/2));
-    // quicksort(&array[size/2], (size/2));
-    return 0;   //change
 }
 
 
